@@ -2,7 +2,7 @@
 import setuptools
 
 setuptools.setup(
-    name="data-handler-leoTiez",
+    name="seqDataHandler",
     version="0.0.1",
     author="Leo Zeitler",
     author_email="leo.zeitler@i2bc.paris-saclay.fr",
