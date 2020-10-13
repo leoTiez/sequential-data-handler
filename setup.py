@@ -7,7 +7,7 @@ setuptools.setup(
     author="Leo Zeitler",
     author_email="leo.zeitler@i2bc.paris-saclay.fr",
     description="Data handler for managing bigwig and bed files and their respective data",
-    url="https://github.com/pypa/sampleproject",
+    url="git@github.com:leoTiez/seqDataHandler.git",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
