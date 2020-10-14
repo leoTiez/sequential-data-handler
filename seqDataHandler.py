@@ -41,7 +41,7 @@ def load_big_file(name, rel_path='data'):
     return file
 
 
-def annotation(bw_list):
+def get_values(bw_list):
     if len(bw_list) == 0:
         raise ValueError('List with bigwig objects must not be empty.')
 
@@ -66,7 +66,7 @@ def annotation(bw_list):
 
 
 def normalise_over_annotation(bw_list, bed_ref, smoothing=None):
-    all_values, chrom_start = annotation(bw_list=bw_list)
+    all_values, chrom_start = get_values(bw_list=bw_list)
     bw_gen_mapping = [[] for _ in all_values]
 
     means = []
