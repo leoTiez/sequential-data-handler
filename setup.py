@@ -13,7 +13,7 @@ setuptools.setup(
         'roman>=3.3',
         'numpy>=1.18',
         'scipy>=1.5',
-        'pyBigWig>=0.3',
+        'pybigwig>=0.3',
         'pybedtools>=0.8'
     ],
     classifiers=[
