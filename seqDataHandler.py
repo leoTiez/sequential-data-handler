@@ -65,7 +65,7 @@ def get_values(bw_list):
     return all_values, chrom_start
 
 
-def normalise_over_annotation(bw_list, bed_ref, smoothing=None):
+def normalise_over_annotation(bw_list, bed_ref, smoothing=None, normalise=True):
     all_values, chrom_start = get_values(bw_list=bw_list)
     bw_gen_mapping = [[] for _ in all_values]
 
@@ -80,7 +80,8 @@ def normalise_over_annotation(bw_list, bed_ref, smoothing=None):
                               + np.flip(np.convolve(np.flip(all_values[num]), np.ones(smooth), mode='same')) / 2.
         means.append(all_values[num].mean())
         stds.append(all_values[num].std())
-        all_values[num] = (all_values[num] - means[-1]) / stds[-1]
+        if not normalise:
+            all_values[num] = (all_values[num] - means[-1]) / stds[-1]
 
     for int_num, interval in enumerate(bed_ref):
         # index 0: Chromosome, 1: start, 2: end, 5: strand
