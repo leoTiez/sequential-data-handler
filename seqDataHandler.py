@@ -80,7 +80,7 @@ def normalise_over_annotation(bw_list, bed_ref, smoothing=None, normalise=True):
                               + np.flip(np.convolve(np.flip(all_values[num]), np.ones(smooth), mode='same')) / 2.
         means.append(all_values[num].mean())
         stds.append(all_values[num].std())
-        if not normalise:
+        if normalise:
             all_values[num] = (all_values[num] - means[-1]) / stds[-1]
 
     for int_num, interval in enumerate(bed_ref):
