@@ -96,7 +96,7 @@ def normalise_over_annotation(bw_list, bed_ref, smoothing=None, normalise=True):
             frag_values = np.nan_to_num(frag_values, copy=False, nan=0.)
             gen_mapping.append(frag_values)
 
-    return bw_gen_mapping, means, stds, all_values
+    return bw_gen_mapping, means, stds, all_values, chrom_start
 
 
 def data_scaling(transcript_data, vec_len=1000):
