@@ -65,7 +65,7 @@ def get_values(bw_list):
     return all_values, chrom_start
 
 
-def normalise_over_annotation(bw_list, bed_ref, smoothing=None, normalise=True):
+def normalise_over_annotation(bw_list, bed_ref, smoothing=None, normalise=True, trans_dict=False):
     all_values, chrom_start = get_values(bw_list=bw_list)
     bw_gen_mapping = [[] for _ in all_values]
 
@@ -76,15 +76,19 @@ def normalise_over_annotation(bw_list, bed_ref, smoothing=None, normalise=True):
     for num, smooth in enumerate(smoothing):
         all_values[num] = np.asarray(all_values[num])
         if smooth is not None:
-            all_values[num] = np.convolve(all_values[num], np.ones(smooth), mode='same') \
-                              + np.flip(np.convolve(np.flip(all_values[num]), np.ones(smooth), mode='same')) / 2.
+            all_values[num] = np.convolve(all_values[num], np.ones(smooth)/float(smooth), mode='same') \
+                              + np.flip(np.convolve(np.flip(all_values[num]), np.ones(smooth)/float(smooth), mode='same')) / 2.
         means.append(all_values[num].mean())
         stds.append(all_values[num].std())
         if normalise:
             all_values[num] = (all_values[num] - means[-1]) / stds[-1]
 
+    if trans_dict:
+        t_dict = {}
     for int_num, interval in enumerate(bed_ref):
-        # index 0: Chromosome, 1: start, 2: end, 5: strand
+        # index 0: Chromosome, 1: start, 2: end, 3: name, 5: strand
+        if trans_dict:
+            t_v = []
         for num, (values, gen_mapping) in enumerate(zip(all_values, bw_gen_mapping)):
             start = chrom_start[interval[0]]
             frag_values = values[start + int(interval[1]): start + int(interval[2])]
@@ -95,8 +99,16 @@ def normalise_over_annotation(bw_list, bed_ref, smoothing=None, normalise=True):
                 pass
             frag_values = np.nan_to_num(frag_values, copy=False, nan=0.)
             gen_mapping.append(frag_values)
+            if trans_dict:
+                t_v.append(frag_values)
 
-    return bw_gen_mapping, means, stds, all_values, chrom_start
+        if trans_dict:
+            t_dict[interval[3]] = t_v
+
+    if not trans_dict:
+        return bw_gen_mapping, means, stds, all_values, chrom_start
+    else:
+        return bw_gen_mapping, means, stds, all_values, chrom_start, t_dict
 
 
 def data_scaling(transcript_data, vec_len=1000):
