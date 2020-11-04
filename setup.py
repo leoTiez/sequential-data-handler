@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name="seqDataHandler",
-    version="0.0.3",
+    version="0.0.4",
     author="Leo Zeitler",
     author_email="leo.zeitler@i2bc.paris-saclay.fr",
     description="Data handler for managing bigwig and bed files and their respective data",
