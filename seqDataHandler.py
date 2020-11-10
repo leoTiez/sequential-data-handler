@@ -8,6 +8,15 @@ import pyBigWig
 from pybedtools import BedTool
 
 
+def center_norm(data):
+    return (data - data.mean()) / data.std()
+
+
+def remap_norm(data):
+    data -= data.min()
+    return data / data.max()
+
+
 def create_bed_random_fragments(bw, max_chunk=6000, name='random_fragments', path='/'):
     curr_dir = os.getcwd()
     bed = open('%s/%s/%s.bed' % (curr_dir, path, name), 'w+')
@@ -65,7 +74,7 @@ def get_values(bw_list):
     return all_values, chrom_start
 
 
-def normalise_over_annotation(bw_list, bed_ref, smoothing=None, normalise=True, trans_dict=False):
+def normalise_over_annotation(bw_list, bed_ref, smoothing=None, normalise=None, trans_dict=False):
     all_values, chrom_start = get_values(bw_list=bw_list)
     bw_gen_mapping = [[] for _ in all_values]
 
@@ -80,8 +89,11 @@ def normalise_over_annotation(bw_list, bed_ref, smoothing=None, normalise=True, 
                               + np.flip(np.convolve(np.flip(all_values[num]), np.ones(smooth)/float(smooth), mode='same')) / 2.
         means.append(all_values[num].mean())
         stds.append(all_values[num].std())
-        if normalise:
-            all_values[num] = (all_values[num] - means[-1]) / stds[-1]
+        if normalise is not None:
+            if normalise.lower() == 'center':
+                all_values[num] = center_norm(all_values[num])
+            elif normalise.lower() == 'remap':
+                all_values[num] = remap_norm(all_values[num])
 
     if trans_dict:
         t_dict = {}
