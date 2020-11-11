@@ -84,7 +84,7 @@ def get_values(bw_list):
     if len(bw_list) == 0:
         raise ValueError('List with bigwig objects must not be empty.')
 
-    all_values = []
+    all_values = [[] for _ in bw_list]
 
     counter = 0
     chrom_start = {}
@@ -93,7 +93,8 @@ def get_values(bw_list):
         counter += length
         for num, bw in enumerate(bw_list):
             values = np.asarray(bw.values(chrom, 0, length))
-            all_values.append(np.nan_to_num(values, nan=0.0))
+            all_values[num].extend(np.nan_to_num(values, nan=0.0).tolist())
 
+    all_values = [np.asarray(genome) for genome in all_values]
     return all_values, chrom_start
 
