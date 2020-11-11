@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import unittest
 import os
-import src.reader as reader
+from datahandler import reader
 import wget
 
 

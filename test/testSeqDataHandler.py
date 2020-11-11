@@ -4,9 +4,9 @@ import os
 import numpy as np
 import wget
 
-from src import reader
+from datahandler import reader
 
-import src.seqDataHandler as seq
+from datahandler import seqDataHandler as seq
 
 
 class TestSeqDataHandler(unittest.TestCase):
