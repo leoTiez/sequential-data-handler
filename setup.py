@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name="seqDataHandler",
-    version="0.1.0",
+    version="1.0.0",
     author="Leo Zeitler",
     author_email="leo.zeitler@i2bc.paris-saclay.fr",
     description="Data handler for managing bigwig and bed files and their respective data",
@@ -15,6 +15,10 @@ setuptools.setup(
         'scipy>=1.5',
         'pybigwig>=0.3',
         'pybedtools>=0.8'
+    ],
+    tests_require=[
+        'unittest',
+        'wget>=3.2'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
