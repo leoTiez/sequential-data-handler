@@ -16,6 +16,10 @@ setuptools.setup(
         'pybigwig>=0.3',
         'pybedtools>=0.8'
     ],
+    tests_require=[
+        'unittest',
+        'wget>=3.2'
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
