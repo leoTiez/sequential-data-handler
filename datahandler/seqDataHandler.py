@@ -60,7 +60,7 @@ def smooth_all(all_values, smooth_list):
     return [smooth(data, smooth_size=smooth_size) for data, smooth_size in zip(all_values, smooth_list)]
 
 
-def annotate_all(all_values, bed_ref, chrom_start, trans_dict=False):
+def annotate_all(all_values, bed_ref, chrom_start):
     bw_gen_mapping = []
     t_dict_list = []
     for data in all_values:
