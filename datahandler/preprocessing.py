@@ -18,9 +18,9 @@ def cancel_noise_cpd(cpd_sig, chrom_start, dna_seq):
             c_ind = set([m.start() for m in re.finditer(c, str(seq))])
             ind = ind.union(c_ind)
 
-        sig_mask = np.ones(len(seq)).astype('bool')
-        sig_mask[np.asarray(list(ind))] = False
-        sig_mask[np.asarray(list(ind)) + 1] = False
+        sig_mask = np.zeros(len(seq)).astype('bool')
+        sig_mask[np.asarray(list(ind))] = True
+        sig_mask[np.asarray(list(ind)) + 1] = True
         cpd_sig[start:start + len(seq)][~sig_mask] = 0
 
     return cpd_sig
