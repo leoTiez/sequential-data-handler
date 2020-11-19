@@ -29,9 +29,9 @@ def load_big_file(name, rel_path='data', is_abs_path=False):
 def load_fast(name, rel_path='data', is_abs_path=False, is_fastq=True):
     path = set_path(name, rel_path=rel_path, is_abs_path=is_abs_path)
     if is_fastq:
-        return SeqIO.parse(path, 'fastq')
+        return list(SeqIO.parse(path, 'fastq'))
     else:
-        return SeqIO.parse(path, 'fasta')
+        return list(SeqIO.parse(path, 'fasta'))
 
 
 def create_bed_random_fragments(bw, max_chunk=6000, name='random_fragments', path='/'):

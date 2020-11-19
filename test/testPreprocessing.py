@@ -20,7 +20,9 @@ class TestPreprocessing(unittest.TestCase):
         cpd = np.arange(1, 10)
         exp_filtered = np.arange(1, 10)
         exp_filtered_idx = np.asarray([2, 3, 6, 7])
-        exp_filtered[exp_filtered_idx] = 0.
+        mask = np.zeros(9)
+        mask[exp_filtered_idx] = 1.
+        exp_filtered[~mask.astype('bool')] = 0.
         chrom_start = {'chrI': 0}
 
         filtered_cpd = preprocessing.cancel_noise_cpd(cpd, chrom_start, genome)
