@@ -57,7 +57,12 @@ def remap_norm_all(all_values):
 
 
 def smooth_all(all_values, smooth_list):
-    return [smooth(data, smooth_size=smooth_size) for data, smooth_size in zip(all_values, smooth_list)]
+    if type(smooth_list) == list:
+        return [smooth(data, smooth_size=smooth_size) for data, smooth_size in zip(all_values, smooth_list)]
+    elif type(smooth_list) == int:
+        return [smooth(data, smooth_size=smooth_list) for data in all_values]
+    else:
+        raise ValueError('smooth_list must be either list or int')
 
 
 def annotate_all(all_values, bed_ref, chrom_start):
