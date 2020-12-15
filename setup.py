@@ -14,7 +14,8 @@ setuptools.setup(
         'numpy>=1.18',
         'scipy>=1.4',
         'pybigwig>=0.3',
-        'pybedtools>=0.8'
+        'pybedtools>=0.8',
+        'biopython>=1.7'
     ],
     tests_require=[
         'unittest',
