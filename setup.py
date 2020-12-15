@@ -12,7 +12,7 @@ setuptools.setup(
     install_requires=[
         'roman>=3.3',
         'numpy>=1.18',
-        'scipy>=1.5',
+        'scipy>=1.4',
         'pybigwig>=0.3',
         'pybedtools>=0.8'
     ],
