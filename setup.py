@@ -25,6 +25,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "License :: CECILL License"
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.5',
 )
 
