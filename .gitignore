@@ -5,3 +5,5 @@ data_handler_leoTiez.egg-info
 dist
 test/data/*.bw
 test/data/*.fna
+notebooks
+datahandler/__pycache__
