@@ -20,6 +20,12 @@ def load_bam_bed_file(name, rel_path='data', is_abs_path=False):
     return file
 
 
+def load_gff(name, rel_path='data', is_abs_path=False):
+    path = set_path(name, rel_path=rel_path, is_abs_path=is_abs_path)
+    file = open(path)
+    return file
+
+
 def load_big_file(name, rel_path='data', is_abs_path=False):
     path = set_path(name, rel_path=rel_path, is_abs_path=is_abs_path)
     file = pyBigWig.open(path)

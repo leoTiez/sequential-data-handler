@@ -2,6 +2,8 @@
 import warnings
 import numpy as np
 import scipy.interpolate as interp
+from BCBio import GFF
+from datahandler.reader import load_gff
 
 
 def center_norm(data):
@@ -15,6 +17,27 @@ def remap_norm(data):
 
 def smooth(data, smooth_size=20):
     return np.convolve(data, np.ones(smooth_size) / float(smooth_size), mode='same')
+
+
+def annotate_gff_from_bw(bw, gff_path, gff_source_type=[('ensembl_havana', 'gene')]):
+    gff = load_gff(gff_path, rel_path='', is_abs_path=True)
+    examiner = GFF.GFFExaminer()
+    chrom_list = list(examiner.available_limits(gff)['gff_id'].keys())
+    gff.close()
+
+    gen_mapping = []
+    gff = load_gff(gff_path, rel_path='', is_abs_path=True)
+    for chrom in chrom_list:
+        limit_info = dict(gff_id=chrom, gff_source_type=gff_source_type)
+        for rec in GFF.parse(gff, limit_info=limit_info):
+            for num, r in enumerate(rec.features):
+                anno = bw.values(chrom, int(r.location.start), int(r.location.end))
+                if int(r.location.strand) == -1:
+                    anno = np.flip(anno)
+                anno = np.nan_to_num(anno, copy=False, nan=0.)
+                gen_mapping.append(anno)
+
+    return gen_mapping
 
 
 def annotate(data, bed_ref, chrom_start):
