@@ -31,7 +31,7 @@ def annotate_gff_from_bw(bw, gff_path, gff_source_type=[('ensembl_havana', 'gene
         limit_info = dict(gff_id=chrom, gff_source_type=gff_source_type)
         for rec in GFF.parse(gff, limit_info=limit_info):
             for num, r in enumerate(rec.features):
-                anno = bw.values(chrom, int(r.location.start), int(r.location.end))
+                anno = bw.values('chr%s' % chrom[0], int(r.location.start), int(r.location.end))
                 if int(r.location.strand) == -1:
                     anno = np.flip(anno)
                 anno = np.nan_to_num(anno, copy=False, nan=0.)
