@@ -7,3 +7,4 @@ test/data/*.bw
 test/data/*.fna
 notebooks
 datahandler/__pycache__
+src
