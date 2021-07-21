@@ -125,6 +125,29 @@ def annotate(data, bed_ref, chrom_start):
     return gen_mapping, trans_dict
 
 
+def binning(data, num_bins=6, offset_l=500, offset_r=500, bins_l=2, bins_r=2):
+    """
+    Aggregate data in bins
+    :param data: input data array
+    :type data: array-like
+    :param num_bins: number of bins that are to be created
+    :type num_bins: int
+    :param offset_l: left offset region that is separately considered
+    :type offset_l: int
+    :param offset_r: right offset region that is separately considered
+    :type offset_r: int
+    :param bins_l: number of bins that are to be created in the left offset region
+    :type bins_l int
+    :param bins_r: number of bins that are to be created in the right offset region
+    :type bins_r: int
+    :return: Aggregated data in defined bins
+    """
+    bins = np.linspace(offset_l, len(data) - offset_r, num_bins + 1)
+    bins = np.insert(bins, np.repeat(0, bins_l), np.linspace(0, offset_l, bins_l + 1)[:-1])
+    bins = np.insert(bins, np.repeat(bins.size, bins_r), np.linspace(len(data) - offset_r, len(data), bins_r + 1)[:-1])
+    return np.add.reduceat(data, bins.astype('int'))[:-1]
+
+
 def rescale(data, vec_len=1000):
     """
     Rescale data array
@@ -174,6 +197,27 @@ def smooth_all(all_values, smooth_list):
         return [smooth(data, smooth_size=smooth_list) for data in all_values]
     else:
         raise ValueError('smooth_list must be either list or int')
+
+
+def binning_all(all_data, num_bins=6, offset_r=500, offset_l=500, bins_l=2, bins_r=2):
+    """
+    Wrapper function for binning
+    :param all_data: list with input data arrays
+    :type all_data: list(array-like)
+    :param num_bins: number of bins that are to be created
+    :type num_bins: int
+    :param offset_l: left offset region that is separately considered
+    :type offset_l: int
+    :param offset_r: right offset region that is separately considered
+    :type offset_r: int
+    :param bins_l: number of bins that are to be created in the left offset region
+    :type bins_l int
+    :param bins_r: number of bins that are to be created in the right offset region
+    :type bins_r: int
+    :return: Aggregated data in defined bins
+    """
+    return np.asarray([binning(d, num_bins=num_bins, offset_l=offset_l, offset_r=offset_r, bins_l=bins_l, bins_r=bins_r)
+            for d in all_data])
 
 
 def annotate_all(all_values, bed_ref, chrom_start):
