@@ -54,7 +54,8 @@ def smooth(data, smooth_size=20):
     :type smooth_size: int
     :return: Smoothed data
     """
-    return np.convolve(data, np.ones(smooth_size) / float(smooth_size), mode='same')
+    smoothing_window = np.ones(smooth_size) / float(smooth_size)
+    return (np.convolve(data, smoothing_window, mode='same') + np.convolve(smoothing_window, data, mode='same')) / 2.
 
 
 def annotate_gff_from_bw(bw, gff_path, gff_source_type=[('ensembl_havana', 'gene')]):
